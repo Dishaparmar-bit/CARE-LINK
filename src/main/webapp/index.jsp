@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CARE LINK</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,23 +33,27 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
             <ul class="navbar-nav ms-auto me-4">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="#top">Home</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="#features">Features</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">NGOs</a>
+                    <a class="nav-link" href="#requests">Requests</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Volunteers</a>
+                    <a class="nav-link" href="#leaderboard">Volunteers</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="#community">Community</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
                 </li>
             </ul>
 
@@ -63,7 +68,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
 
 <!-- Hero Section -->
-<section class="hero-section">
+<section class="hero-section" id="top">
 
 <div class="container">
 
@@ -89,26 +94,26 @@ requests from one intelligent platform.
 
 </p>
 
-<div class="mt-4">
+<div class="mt-4 hero-cta">
 
-<a href="register.jsp"
-class="btn btn-success btn-lg me-3">
+<a href="register.jsp?role=volunteer"
+class="btn btn-success btn-lg me-3 mb-2">
 
 <i class="bi bi-people-fill"></i>
-Join Volunteer
+Join as Volunteer
 
 </a>
 
-<a href="register.jsp"
-class="btn btn-outline-light btn-lg me-3">
+<a href="register.jsp?role=ngo"
+class="btn btn-outline-light btn-lg me-3 mb-2">
 
 <i class="bi bi-building"></i>
 Register NGO
 
 </a>
 
-<a href="register.jsp"
-class="btn btn-warning btn-lg">
+<a href="register.jsp?role=donor"
+class="btn btn-warning btn-lg mb-2">
 
 <i class="bi bi-heart-fill"></i>
 Become Donor
@@ -134,6 +139,11 @@ Become Donor
 <p>Donations</p>
 </div>
 
+<div>
+<h3>320+</h3>
+<p>Requests Fulfilled</p>
+</div>
+
 </div>
 
 </div>
@@ -148,13 +158,13 @@ Become Donor
 
 <hr>
 
-<p>24 Active NGO Requests</p>
+<p><i class="bi bi-broadcast"></i> 24 Active NGO Requests</p>
 
-<p>85 Volunteers Available</p>
+<p><i class="bi bi-person-check-fill"></i> 85 Volunteers Available</p>
 
-<p>12 Donation Drives Running</p>
+<p><i class="bi bi-gift-fill"></i> 12 Donation Drives Running</p>
 
-<p class="text-success">
+<p class="text-success mb-0">
 ✓ Real-Time Community Support
 </p>
 
@@ -167,51 +177,15 @@ Become Donor
 </div>
 
 </section>
-<!-- Statistics -->
-<div class="container mt-5">
-
-    <div class="row text-center">
-
-        <div class="col-md-3 mb-3">
-            <div class="card p-4">
-                <h2>150+</h2>
-                <p>NGOs</p>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card p-4">
-                <h2>1200+</h2>
-                <p>Volunteers</p>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card p-4">
-                <h2>450+</h2>
-                <p>Donations</p>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card p-4">
-                <h2>320+</h2>
-                <p>Requests Completed</p>
-            </div>
-        </div>
-
-    </div>
-
-</div>
 
 <!-- NGO Requests -->
 
-<section class="container py-5">
+<section class="container py-5" id="requests">
 
     <div class="text-center mb-5">
         <span class="hero-badge">ACTIVE REQUESTS</span>
 
-        <h2 class="mt-3 fw-bold">
+        <h2 class="mt-3 fw-bold section-title">
             Urgent Community Needs
         </h2>
 
@@ -230,18 +204,18 @@ Become Donor
                     Urgent
                 </span>
 
-                <h4>Food Distribution Drive</h4>
+                <h4 class="mt-3">Food Distribution Drive</h4>
 
-                <p>
+                <p class="text-secondary">
                     Need volunteers and food supplies
                     for 300 families.
                 </p>
 
                 <div class="request-footer">
-                    <span>Lucknow</span>
-                    <button class="btn btn-success">
+                    <span><i class="bi bi-geo-alt-fill"></i> Lucknow</span>
+                    <a href="request.jsp?id=1" class="btn btn-success">
                         Support
-                    </button>
+                    </a>
                 </div>
 
             </div>
@@ -256,18 +230,18 @@ Become Donor
                     Active
                 </span>
 
-                <h4>School Kit Donation</h4>
+                <h4 class="mt-3">School Kit Donation</h4>
 
-                <p>
+                <p class="text-secondary">
                     Collecting notebooks and school
                     supplies for children.
                 </p>
 
                 <div class="request-footer">
-                    <span>Kanpur</span>
-                    <button class="btn btn-success">
+                    <span><i class="bi bi-geo-alt-fill"></i> Kanpur</span>
+                    <a href="request.jsp?id=2" class="btn btn-success">
                         Donate
-                    </button>
+                    </a>
                 </div>
 
             </div>
@@ -282,18 +256,18 @@ Become Donor
                     New
                 </span>
 
-                <h4>Blood Donation Camp</h4>
+                <h4 class="mt-3">Blood Donation Camp</h4>
 
-                <p>
+                <p class="text-secondary">
                     Volunteers required for organizing
                     health awareness camp.
                 </p>
 
                 <div class="request-footer">
-                    <span>Prayagraj</span>
-                    <button class="btn btn-success">
+                    <span><i class="bi bi-geo-alt-fill"></i> Prayagraj</span>
+                    <a href="request.jsp?id=3" class="btn btn-success">
                         Join
-                    </button>
+                    </a>
                 </div>
 
             </div>
@@ -302,16 +276,22 @@ Become Donor
 
     </div>
 
+    <div class="text-center mt-4">
+        <a href="request.jsp" class="btn btn-outline-light">
+            View All Requests <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+
 </section>
 
 <!-- Top Volunteers -->
 
-<section class="container py-5">
+<section class="container py-5" id="leaderboard">
 
     <div class="text-center mb-5">
         <span class="hero-badge">VOLUNTEER LEADERBOARD</span>
 
-        <h2 class="mt-3 fw-bold">
+        <h2 class="mt-3 fw-bold section-title">
             Top Impact Makers
         </h2>
 
@@ -327,12 +307,14 @@ Become Donor
 
                 <div class="rank-badge">#1</div>
 
-                <h4>Rahul Sharma</h4>
+                <i class="bi bi-trophy-fill feature-icon"></i>
 
-                <p>120 Hours Completed</p>
+                <h4 class="mt-2">Rahul Sharma</h4>
+
+                <p class="text-secondary">120 Hours Completed</p>
 
                 <span class="points">
-                    ⭐ 2500 Points
+                    <i class="bi bi-star-fill"></i> 2500 Points
                 </span>
 
             </div>
@@ -343,12 +325,14 @@ Become Donor
 
                 <div class="rank-badge">#2</div>
 
-                <h4>Priya Verma</h4>
+                <i class="bi bi-award-fill feature-icon"></i>
 
-                <p>95 Hours Completed</p>
+                <h4 class="mt-2">Priya Verma</h4>
+
+                <p class="text-secondary">95 Hours Completed</p>
 
                 <span class="points">
-                    ⭐ 2100 Points
+                    <i class="bi bi-star-fill"></i> 2100 Points
                 </span>
 
             </div>
@@ -359,12 +343,14 @@ Become Donor
 
                 <div class="rank-badge">#3</div>
 
-                <h4>Aman Singh</h4>
+                <i class="bi bi-award-fill feature-icon"></i>
 
-                <p>80 Hours Completed</p>
+                <h4 class="mt-2">Aman Singh</h4>
+
+                <p class="text-secondary">80 Hours Completed</p>
 
                 <span class="points">
-                    ⭐ 1800 Points
+                    <i class="bi bi-star-fill"></i> 1800 Points
                 </span>
 
             </div>
@@ -372,16 +358,22 @@ Become Donor
 
     </div>
 
+    <div class="text-center mt-4">
+        <a href="register.jsp?role=volunteer" class="btn btn-outline-light">
+            Join the Leaderboard <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+
 </section>
 
 <!-- Features Section -->
 
-<section class="container py-5">
+<section class="container py-5" id="features">
 
     <div class="text-center mb-5">
         <span class="hero-badge">CARE LINK FEATURES</span>
 
-        <h2 class="mt-3 fw-bold">
+        <h2 class="mt-3 fw-bold section-title">
             Everything Needed To Create Impact
         </h2>
 
@@ -417,7 +409,7 @@ Become Donor
                 <i class="bi bi-geo-alt-fill"></i>
                 <h4>Location Mapping</h4>
                 <p>
-                    Find requests and donation centers nearby.
+                    Find requests and donation centers nearby on the map.
                 </p>
             </div>
         </div>
@@ -445,9 +437,10 @@ Become Donor
         <div class="col-md-4">
             <div class="feature-card">
                 <i class="bi bi-award-fill"></i>
-                <h4>Certificates</h4>
+                <h4>Digital Certificates</h4>
                 <p>
-                    Get digital certificates after completed drives.
+                    Get verified digital certificates for hours volunteered
+                    and donations made.
                 </p>
             </div>
         </div>
@@ -455,15 +448,92 @@ Become Donor
     </div>
 
 </section>
+
+<!-- Community Preview -->
+
+<section class="container py-5" id="community">
+
+    <div class="text-center mb-5">
+        <span class="hero-badge">CARE LINK COMMUNITY</span>
+
+        <h2 class="mt-3 fw-bold section-title">
+            One Community. One Mission.
+        </h2>
+
+        <p class="text-secondary">
+            NGOs, Volunteers and Donors share updates, stories and support each other.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="feature-card text-start">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-person-circle fs-2 me-2"></i>
+                    <div>
+                        <h6 class="mb-0">Priya Verma</h6>
+                        <small class="text-secondary">Volunteer</small>
+                    </div>
+                </div>
+                <p>
+                    Just completed the School Kit Donation drive in Kanpur —
+                    distributed 150 kits today! 🎉
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card text-start">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-building fs-2 me-2"></i>
+                    <div>
+                        <h6 class="mb-0">Hope Foundation</h6>
+                        <small class="text-secondary">NGO</small>
+                    </div>
+                </div>
+                <p>
+                    Thank you to all donors who supported our Blood Donation Camp.
+                    Goal achieved! ❤️
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card text-start">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-person-circle fs-2 me-2"></i>
+                    <div>
+                        <h6 class="mb-0">Aman Singh</h6>
+                        <small class="text-secondary">Donor</small>
+                    </div>
+                </div>
+                <p>
+                    Proud to contribute to the Food Distribution Drive.
+                    Every bit helps! 🙏
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="login.jsp" class="btn btn-success">
+            <i class="bi bi-chat-square-heart-fill"></i> Join the Community
+        </a>
+    </div>
+
+</section>
+
 <!----- HOW IT WORKS ------>
 
 <div class="container mt-5 mb-5">
 
-    <h2 class="text-center mb-5">
+    <h2 class="text-center mb-5 section-title">
         How CARE LINK Works
     </h2>
 
-    <div class="row text-center">
+    <div class="row text-center g-4">
 
         <div class="col-md-3">
             <div class="work-card">
@@ -473,7 +543,7 @@ Become Donor
 
                 <h5 class="mt-3">NGO Creates Request</h5>
 
-                <p>
+                <p class="text-secondary">
                     NGOs post requirements for food,
                     education, healthcare or supplies.
                 </p>
@@ -488,7 +558,7 @@ Become Donor
 
                 <h5 class="mt-3">Volunteers Join</h5>
 
-                <p>
+                <p class="text-secondary">
                     Volunteers browse opportunities
                     and register instantly.
                 </p>
@@ -503,7 +573,7 @@ Become Donor
 
                 <h5 class="mt-3">Donors Support</h5>
 
-                <p>
+                <p class="text-secondary">
                     Donors contribute funds,
                     resources and supplies.
                 </p>
@@ -514,13 +584,13 @@ Become Donor
             <div class="work-card">
                 <div class="step-circle">4</div>
 
-                <i class="bi bi-globe2 fs-1"></i>
+                <i class="bi bi-award-fill fs-1"></i>
 
-                <h5 class="mt-3">Community Benefits</h5>
+                <h5 class="mt-3">Earn Recognition</h5>
 
-                <p>
-                    Help reaches the people
-                    who need it most.
+                <p class="text-secondary">
+                    Get certificates, points and
+                    climb the leaderboard.
                 </p>
             </div>
         </div>
@@ -529,6 +599,65 @@ Become Donor
 
 </div>
 
+<!-- Footer -->
+<footer class="footer" id="contact">
+    <div class="container">
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <h4><i class="bi bi-heart-pulse-fill"></i> CARE LINK</h4>
+                <p class="text-secondary mt-3">
+                    Connecting NGOs, Volunteers and Donors to build
+                    stronger communities together.
+                </p>
+            </div>
+
+            <div class="col-md-2">
+                <h4>Quick Links</h4>
+                <ul class="list-unstyled mt-3 footer-links">
+                    <li><a href="#top">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#requests">Requests</a></li>
+                    <li><a href="#leaderboard">Volunteers</a></li>
+                    <li><a href="#community">Community</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4>Get Involved</h4>
+                <ul class="list-unstyled mt-3 footer-links">
+                    <li><a href="register.jsp?role=volunteer">Become a Volunteer</a></li>
+                    <li><a href="register.jsp?role=ngo">Register your NGO</a></li>
+                    <li><a href="register.jsp?role=donor">Become a Donor</a></li>
+                    <li><a href="login.jsp">Login</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4>Contact Us</h4>
+                <ul class="list-unstyled mt-3 footer-links">
+                    <li><i class="bi bi-envelope-fill"></i> support@carelink.org</li>
+                    <li><i class="bi bi-telephone-fill"></i> +91 98765 43210</li>
+                    <li><i class="bi bi-geo-alt-fill"></i> Lucknow, India</li>
+                </ul>
+
+                <div class="social-icons mt-3">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <hr class="footer-hr">
+
+        <p class="text-center text-secondary mb-0">
+            &copy; 2026 CARE LINK. All Rights Reserved.
+        </p>
+    </div>
+</footer>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
