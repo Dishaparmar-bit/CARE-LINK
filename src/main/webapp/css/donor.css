@@ -1,0 +1,189 @@
+/* ============================================================ */
+/* 🌲 CARE LINK PREMIUM LIGHT METRO EMERALD THEME              */
+/* ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&display=swap');
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #F8FAFC !important; /* Soft premium slate tint background */
+    color: #0F172A !important;
+}
+
+/* 🌲 Deep Emerald Gradient Unified Sidebar System */
+.dark-sidebar {
+    background: linear-gradient(180deg, #064E3B 0%, #022C22 100%) !important; /* Solid dark green velvet */
+    box-shadow: 4px 0 24px rgba(2, 44, 34, 0.15);
+}
+
+.sidebar-brand {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.profile-panel {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px;
+}
+
+/* Links Interactive Matrix Controls */
+.nav-item-btn {
+    color: #A7F3D0 !important; /* Soft green sage readable contrast text */
+    font-weight: 500;
+    border-radius: 10px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #FFFFFF !important;
+}
+
+.nav-item-btn.active {
+    background: #10B981 !important; /* Active indicator */
+    color: #FFFFFF !important;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
+}
+
+/* 🃏 White Flat Surface Elevation Cards */
+.metric-card {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.02), 0 2px 4px -1px rgba(15, 23, 42, 0.01) !important;
+    transition: all 0.2s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -3px rgba(15, 23, 42, 0.08) !important;
+    border-color: #CBD5E1 !important;
+}
+
+/* Map Utilities */
+#donor-map {
+    width: 100%;
+    height: 410px;
+    border-radius: 14px;
+    border: 1px solid #E2E8F0;
+    z-index: 10;
+}
+
+/* Global Smooth Scroll Bars */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #F8FAFC;
+}
+::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 4px;
+}
+
+/* ============================================================ */
+/* 🖥️ UNIFIED PREMIUM FOOTER DESIGN PLATFORM STANDARDS          */
+/* ============================================================ */
+.footer {
+    margin-top: 48px;
+    background-color: #0F172A !important; /* Deep dark professional slate slate-900 */
+    border-radius: 20px;
+    padding: 40px 32px;
+    color: #E2E8F0 !important;
+}
+
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+}
+
+.footer-brand h4, .footer-col h4 {
+    color: #FFFFFF !important;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+}
+
+.footer-brand h4 i {
+    color: #10B981 !important; /* Premium Emerald Connected Accent */
+}
+
+.footer-brand p {
+    color: #94A3B8;
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 14px;
+}
+
+.footer-socials a {
+    color: #64748B;
+    font-size: 16px;
+    transition: color 0.2s ease;
+}
+
+.footer-socials a:hover {
+    color: #10B981 !important;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+    color: #94A3B8;
+    text-decoration: none;
+    font-size: 13.5px;
+    transition: color 0.2s ease;
+}
+
+.footer-col ul li a:hover {
+    color: #FFFFFF !important;
+    text-decoration: underline;
+}
+
+.footer-contact-item {
+    color: #94A3B8;
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-contact-item i {
+    color: #10B981;
+    width: 16px;
+    text-align: center;
+}
+
+.footer-hr {
+    border: 0;
+    border-top: 1px solid #1E293B;
+    margin: 32px 0 20px 0;
+}
+
+.footer-bottom {
+    text-align: center;
+    color: #64748B;
+    font-size: 12.5px;
+    margin: 0;
+}

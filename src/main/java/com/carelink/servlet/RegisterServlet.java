@@ -134,7 +134,7 @@ protected void doPost(HttpServletRequest request,
                         getServletContext()
                         .getRealPath("")
                         + File.separator
-                        + "Uploads"
+                        + "images"
                         + File.separator
                         + "ngo_documents";
 
@@ -152,7 +152,7 @@ protected void doPost(HttpServletRequest request,
                 );
 
                 documentPath =
-                        "Uploads/ngo_documents/"
+                        "images/ngo_documents/"
                         + fileName;
             }
 

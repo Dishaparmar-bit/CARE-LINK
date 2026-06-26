@@ -80,7 +80,7 @@
         <h2>Welcome Back</h2>
         <p class="subtitle">Login to continue making an impact</p>
 
-        <!-- ---- Success message after registration ---- -->
+        <!-- ---- Dynamic Alert Messaging Container ---- -->
         <%
             String registered = request.getParameter("registered");
             String loginError = request.getParameter("error");
@@ -106,7 +106,15 @@
         </div>
         <% } %>
 
-     
+        <% if ("pending_approval".equals(loginError)) { %>
+        <div class="alert alert-warning text-start d-flex align-items-start gap-3 my-3" style="border-radius: 12px; font-size: 14px; background-color: #fffbeb; border: 1px solid #fde68a; color: #78350f;">
+            <i class="bi bi-shield-lock-fill fs-5 text-warning"></i>
+            <div>
+                <strong>Account Pending Review</strong><br>
+                <span style="opacity:0.9">Your NGO credentials are currently being verified by our admin panel. Please try logging in once approval is completed.</span>
+            </div>
+        </div>
+        <% } %>
 
         <!-- ---- Login Form ---- -->
         <form action="LoginServlet" method="post" id="loginForm" novalidate>

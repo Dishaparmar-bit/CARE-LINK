@@ -19,82 +19,40 @@
     String successMsg = (String) request.getAttribute("success");
 %>
 
-
-
 <!-- ================= NAVBAR ================= -->
 <nav class="navbar navbar-expand-lg fixed-top reg-nav">
-
-
     <div class="container">
-
         <a class="navbar-brand logo-text" href="index.jsp">
             <i class="bi bi-heart-pulse-fill"></i> CARE LINK
         </a>
-
-        <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse" data-bs-target="#regMenu">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#regMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="regMenu">
             <ul class="navbar-nav ms-auto align-items-lg-center me-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.jsp#top">
-                        <i class="bi bi-house-fill"></i> Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.jsp#features">
-                        <i class="bi bi-stars"></i> Features
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.jsp#requests">
-                        <i class="bi bi-card-list"></i> Requests
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.jsp#leaderboard">
-                        <i class="bi bi-trophy-fill"></i> Volunteers
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.jsp#community">
-                        <i class="bi bi-people-fill"></i> Community
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.jsp#contact">
-                        <i class="bi bi-envelope-fill"></i> Contact
-                    </a>
-                </li>
+                <li class="nav-item"><a class="nav-link" href="index.jsp#top"><i class="bi bi-house-fill"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.jsp#features"><i class="bi bi-stars"></i> Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.jsp#requests"><i class="bi bi-card-list"></i> Requests</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.jsp#leaderboard"><i class="bi bi-trophy-fill"></i> Volunteers</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.jsp#community"><i class="bi bi-people-fill"></i> Community</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.jsp#contact"><i class="bi bi-envelope-fill"></i> Contact</a></li>
             </ul>
               <a href="login.jsp" class="btn login-btn ms-lg-3">Login</a>
         </div>
-
     </div>
 </nav>
 
 <!-- ================= MAIN FORM ================= -->
 <div class="reg-wrapper">
     <div class="reg-card">
-
         <div class="reg-header">
-            <h2 class="reg-title">
-                <i class="bi bi-person-plus-fill"></i> Create Account
-            </h2>
+            <h2 class="reg-title"><i class="bi bi-person-plus-fill"></i> Create Account</h2>
             <p class="reg-sub">Join CARE LINK and start making an impact.</p>
         </div>
 
-<%
-String error =
-    request.getParameter("error");
-%>
-
+<% String error = request.getParameter("error"); %>
 <% if("email_exists".equals(error)) { %>
-<div class="alert alert-danger text-center">
-    Email already registered. Please login instead.
-</div>
+<div class="alert alert-danger text-center">Email already registered. Please login instead.</div>
 <% } %>
         <% if (errorMsg != null) { %>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -102,7 +60,6 @@ String error =
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
         <% } %>
-
         <% if (successMsg != null) { %>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="bi bi-check-circle-fill me-2"></i><%= successMsg %>
@@ -110,38 +67,29 @@ String error =
         </div>
         <% } %>
 
-        <!-- Role Tabs -->
+        <!-- Role Tabs (Fixed Routing to register.jsp) -->
         <div class="role-tabs">
-            <a href="register.jsp?role=volunteer"
-               class="role-tab <%= "volunteer".equals(role) ? "active" : "" %>">
-                <i class="bi bi-people-fill"></i> Volunteer
-            </a>
-            <a href="register.jsp?role=ngo"
-               class="role-tab <%= "ngo".equals(role) ? "active" : "" %>">
-                <i class="bi bi-building"></i> NGO
-            </a>
-            <a href="register.jsp?role=donor"
-               class="role-tab <%= "donor".equals(role) ? "active" : "" %>">
-                <i class="bi bi-heart-fill"></i> Donor
-            </a>
+            <a href="register.jsp?role=volunteer" class="role-tab <%= "volunteer".equals(role) ? "active" : "" %>"><i class="bi bi-people-fill"></i> Volunteer</a>
+            <a href="register.jsp?role=ngo" class="role-tab <%= "ngo".equals(role) ? "active" : "" %>"><i class="bi bi-building"></i> NGO</a>
+            <a href="register.jsp?role=donor" class="role-tab <%= "donor".equals(role) ? "active" : "" %>"><i class="bi bi-heart-fill"></i> Donor</a>
         </div>
 
         <!-- Registration Form -->
         <form action="RegisterServlet" method="post" id="regForm" enctype="multipart/form-data" novalidate>
             <input type="hidden" name="role" value="<%= role %>">
+            
+            <input type="hidden" name="latitude" id="formLat" value="22.7196">
+            <input type="hidden" name="longitude" id="formLng" value="75.8577">
 
             <!-- Personal Info -->
             <div class="form-section">
                 <h6 class="form-section-title">Personal Information</h6>
                 <div class="row g-3">
-
                     <div class="col-md-12">
                         <label class="form-label">Full Name <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                            <input type="text" name="fullName" class="form-control"
-                                   pattern="[A-Za-z ]{3,50}"
-                                   placeholder="Enter your full name" required>
+                            <input type="text" name="fullName" class="form-control" pattern="[A-Za-z ]{3,50}" placeholder="Enter your full name" required>
                         </div>
                     </div>
 
@@ -149,28 +97,19 @@ String error =
                         <label class="form-label">Email Address <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-                            <input type="email" name="email" class="form-control"
-                                   placeholder="you@example.com" required>
+                            <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
                         </div>
                     </div>
 
                     <div class="col-md-6 d-flex align-items-end">
-                        <button type="button" class="btn btn-outline-success w-100"
-                                onclick="sendOTP()">
-                            <i class="bi bi-send-fill me-1"></i> Send OTP
-                        </button>
+                        <button type="button" class="btn btn-outline-success w-100" onclick="sendOTP()"><i class="bi bi-send-fill me-1"></i> Send OTP</button>
                     </div>
 
                     <div class="col-md-12">
                         <label class="form-label">Email OTP</label>
                         <div class="input-group">
-                            <input type="text" id="otp" class="form-control"
-                                   maxlength="6" pattern="[0-9]{6}"
-                                   placeholder="Enter 6-digit OTP">
-                            <button type="button" class="btn btn-success"
-                                    onclick="verifyOTP()">
-                                <i class="bi bi-shield-check me-1"></i> Verify OTP
-                            </button>
+                            <input type="text" id="otp" class="form-control" maxlength="6" pattern="[0-9]{6}" placeholder="Enter 6-digit OTP">
+                            <button type="button" class="btn btn-success" onclick="verifyOTP()"><i class="bi bi-shield-check me-1"></i> Verify OTP</button>
                         </div>
                         <small id="otpStatus"></small>
                     </div>
@@ -179,9 +118,7 @@ String error =
                         <label class="form-label">Phone Number</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-telephone-fill"></i></span>
-                            <input type="tel" name="phone" class="form-control"
-                                   placeholder="9876543210" maxlength="10"
-                                   pattern="[0-9]{10}" required>
+                            <input type="tel" name="phone" class="form-control" placeholder="9876543210" maxlength="10" pattern="[0-9]{10}" required>
                         </div>
                     </div>
 
@@ -197,29 +134,7 @@ String error =
                         <label class="form-label">State <span class="text-danger">*</span></label>
                         <select name="state" class="form-select" required>
                             <option value="">Select State</option>
-                            <option>Andhra Pradesh</option>
-                            <option>Arunachal Pradesh</option>
-                            <option>Assam</option>
-                            <option>Bihar</option>
-                            <option>Chhattisgarh</option>
-                            <option>Delhi</option>
-                            <option>Goa</option>
-                            <option>Gujarat</option>
-                            <option>Haryana</option>
-                            <option>Himachal Pradesh</option>
-                            <option>Jharkhand</option>
-                            <option>Karnataka</option>
-                            <option>Kerala</option>
-                            <option>Madhya Pradesh</option>
-                            <option>Maharashtra</option>
-                            <option>Odisha</option>
-                            <option>Punjab</option>
-                            <option>Rajasthan</option>
-                            <option>Tamil Nadu</option>
-                            <option>Telangana</option>
-                            <option>Uttar Pradesh</option>
-                            <option>Uttarakhand</option>
-                            <option>West Bengal</option>
+                            <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option><option>Chhattisgarh</option><option>Delhi</option><option>Goa</option><option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option><option>Odisha</option><option>Punjab</option><option>Rajasthan</option><option>Tamil Nadu</option><option>Telangana</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
                         </select>
                     </div>
 
@@ -227,44 +142,35 @@ String error =
                         <label class="form-label">City <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
-                            <input type="text" name="city" class="form-control"
-                                   placeholder="Enter City" required>
+                            <input type="text" name="city" id="cityInput" class="form-control" placeholder="Enter City" required>
                         </div>
+                    </div>
+
+                    <!-- Live Satellite Geolocation Link Setup -->
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-sm btn-outline-dark" onclick="fetchLiveCoordinates()"><i class="bi bi-crosshairs"></i> Detect Live Geo-Coordinates for Impact Map</button>
+                        <small id="geoFeedback" class="text-muted d-block mt-1" style="font-size:11px;">Default center mapping: Indore (22.7196, 75.8577) will be verified unless auto-detected.</small>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Password <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                            <input type="password" name="password" id="password"
-                                   class="form-control" placeholder="Min 8 characters"
-                                   minlength="8"
-                                   pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
-                                   required>
-                            <button class="btn btn-outline-secondary toggle-pw" type="button"
-                                    onclick="togglePw('password', this)">
-                                <i class="bi bi-eye"></i>
-                            </button>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Min 8 characters" minlength="8" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$" required>
+                            <button class="btn btn-outline-secondary toggle-pw" type="button" onclick="togglePw('password', this)"><i class="bi bi-eye"></i></button>
                         </div>
-                        <small class="text-muted" style="font-size:12px;">
-                            Must contain uppercase, lowercase, number and special character.
-                        </small>
+                        <small class="text-muted" style="font-size:12px;">Must contain uppercase, lowercase, number and special character.</small>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Confirm Password <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                            <input type="password" name="confirmPassword" id="confirmPassword"
-                                   class="form-control" placeholder="Re-enter password" required>
-                            <button class="btn btn-outline-secondary toggle-pw" type="button"
-                                    onclick="togglePw('confirmPassword', this)">
-                                <i class="bi bi-eye"></i>
-                            </button>
+                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Re-enter password" required>
+                            <button class="btn btn-outline-secondary toggle-pw" type="button" onclick="togglePw('confirmPassword', this)"><i class="bi bi-eye"></i></button>
                         </div>
                         <div id="pwMatch" class="form-text" style="font-size:12px;"></div>
                     </div>
-
                 </div>
             </div>
 
@@ -277,8 +183,7 @@ String error =
                         <label class="form-label">Skills / Interests</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-tools"></i></span>
-                            <input type="text" name="skills" class="form-control"
-                                   placeholder="e.g. Teaching, Medical, Driving, Cooking">
+                            <input type="text" name="skills" class="form-control" placeholder="e.g. Teaching, Medical, Driving, Cooking">
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -304,37 +209,30 @@ String error =
                         <label class="form-label">Organisation Name <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-building"></i></span>
-                            <input type="text" name="orgName" class="form-control"
-                                   placeholder="Registered organisation name" required>
+                            <input type="text" name="orgName" class="form-control" placeholder="Registered organisation name" required>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Registration Number</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-card-text"></i></span>
-                            <input type="text" name="regNumber" class="form-control"
-                                   placeholder="NGO registration / trust number"
-                                   minlength="5" maxlength="50">
+                            <input type="text" name="regNumber" class="form-control" placeholder="NGO registration / trust number" minlength="5" maxlength="50">
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <label class="form-label">NGO Registration Certificate  (PDF/JPG/PNG, max 10MB) <span class="text-danger">*</span></label>
-                        <input type="file" name="ngoDocument" class="form-control"
-                               accept=".pdf,.jpg,.jpeg,.png" required>
+                        <label class="form-label">NGO Registration Certificate (PDF/JPG/PNG, max 10MB) <span class="text-danger">*</span></label>
+                        <input type="file" name="ngoDocument" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required>
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">NGO Website</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-globe"></i></span>
-                            <input type="url" name="website" class="form-control"
-                                   placeholder="https://example.org">
+                            <input type="url" name="website" class="form-control" placeholder="https://example.org">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">About Your NGO</label>
-                        <textarea name="description" class="form-control" rows="3"
-                                  minlength="20" maxlength="500"
-                                  placeholder="Briefly describe your work and mission"></textarea>
+                        <textarea name="description" class="form-control" rows="3" minlength="20" maxlength="500" placeholder="Briefly describe your work and mission"></textarea>
                     </div>
                 </div>
             </div>
@@ -364,25 +262,15 @@ String error =
             <div class="form-check mt-3">
                 <input class="form-check-input" type="checkbox" id="terms" required>
                 <label class="form-check-label" for="terms">
-                    I agree to the
-                    <a href="#" class="text-success">Terms of Service</a>
-                    and
-                    <a href="#" class="text-success">Privacy Policy</a>
+                    I agree to the <a href="#" class="text-success">Terms of Service</a> and <a href="#" class="text-success">Privacy Policy</a>
                 </label>
             </div>
 
             <!-- Submit -->
-            <button type="submit" id="registerBtn"
-                    class="btn btn-success reg-submit-btn mt-4 w-100" disabled>
-                <i class="bi bi-person-check-fill me-2"></i>
-                Create <%= "volunteer".equals(role) ? "Volunteer" : "ngo".equals(role) ? "NGO" : "Donor" %> Account
+            <button type="submit" id="registerBtn" class="btn btn-success reg-submit-btn mt-4 w-100" disabled>
+                <i class="bi bi-person-check-fill me-2"></i> Create <%= "volunteer".equals(role) ? "Volunteer" : "ngo".equals(role) ? "NGO" : "Donor" %> Account
             </button>
-
-            <p class="text-center mt-3 small" style="color:#6b8c78;">
-                Already have an account?
-                <a href="login.jsp" class="text-success fw-semibold">Login here</a>
-            </p>
-
+            <p class="text-center mt-3 small" style="color:#6b8c78;">Already have an account? <a href="login.jsp" class="text-success fw-semibold">Login here</a></p>
         </form>
     </div>
 </div>
@@ -391,12 +279,9 @@ String error =
 <footer class="footer" id="contact">
     <div class="container">
         <div class="row g-4">
-
             <div class="col-md-4">
                 <h4><i class="bi bi-heart-pulse-fill"></i> CARE LINK</h4>
-                <p class="mt-3">
-                    Connecting NGOs, Volunteers and Donors to build stronger communities together.
-                </p>
+                <p class="mt-3">Connecting NGOs, Volunteers and Donors to build stronger communities together.</p>
                 <div class="social-icons mt-3">
                     <a href="#"><i class="bi bi-facebook"></i></a>
                     <a href="#"><i class="bi bi-twitter-x"></i></a>
@@ -404,7 +289,6 @@ String error =
                     <a href="#"><i class="bi bi-linkedin"></i></a>
                 </div>
             </div>
-
             <div class="col-md-2">
                 <h4>Quick Links</h4>
                 <ul class="list-unstyled mt-3 footer-links">
@@ -415,7 +299,6 @@ String error =
                     <li><a href="index.jsp#community">Community</a></li>
                 </ul>
             </div>
-
             <div class="col-md-3">
                 <h4>Get Involved</h4>
                 <ul class="list-unstyled mt-3 footer-links">
@@ -424,7 +307,6 @@ String error =
                     <li><a href="register.jsp?role=donor">Become a Donor</a></li>
                 </ul>
             </div>
-
             <div class="col-md-3">
                 <h4>Contact Us</h4>
                 <ul class="list-unstyled mt-3 footer-links">
@@ -433,14 +315,9 @@ String error =
                     <li class="mt-2"><i class="bi bi-geo-alt-fill"></i> Lucknow, India</li>
                 </ul>
             </div>
-
         </div>
-
         <hr class="footer-hr">
-
-        <p class="text-center mb-0" style="color:#6b7280; font-size:13px;">
-            &copy; 2026 CARE LINK. All Rights Reserved.
-        </p>
+        <p class="text-center mb-0" style="color:#6b7280; font-size:13px;">&copy; 2026 CARE LINK. All Rights Reserved.</p>
     </div>
 </footer>
 
@@ -541,6 +418,22 @@ String error =
         document.querySelector('input[name="email"]').addEventListener('input', function() {
             document.getElementById('registerBtn').disabled = true;
             document.getElementById('otpStatus').textContent = '';
+        });
+    }
+
+    // 🛠️ Satellite Tracking Script for Impact Maps Integration
+    function fetchLiveCoordinates() {
+        if (!navigator.geolocation) {
+            alert('Geolocation is not supported by your current browser browser node.');
+            return;
+        }
+        document.getElementById('geoFeedback').innerText = "🌐 Accessing core satellite telemetry links...";
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            document.getElementById('formLat').value = pos.coords.latitude.toFixed(6);
+            document.getElementById('formLng').value = pos.coords.longitude.toFixed(6);
+            document.getElementById('geoFeedback').innerHTML = "<span style='color:#00a86b; font-weight:700;'>✓ Live Node Sync Connected! Coordinates captured: " + pos.coords.latitude.toFixed(4) + ", " + pos.coords.longitude.toFixed(4) + "</span>";
+        }, function(err) {
+            document.getElementById('geoFeedback').innerText = "⚠️ Failed to resolve satellite lock. Reverting back to city defaults.";
         });
     }
 
