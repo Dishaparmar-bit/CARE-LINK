@@ -11,9 +11,9 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailUtil {
 
-    private static final String FROM_EMAIL = "";
+    private static final String FROM_EMAIL = "carelinksupportteam@gmail.com";
     // NOTE: Put your 16-character Google App Password inside this string variable
-    private static final String APP_PASSWORD = ""; 
+    private static final String APP_PASSWORD = "xxxp tlfn dwbu hofw"; 
 
     private static Session getSession() {
         Properties props = new Properties();

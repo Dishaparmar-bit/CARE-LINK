@@ -704,7 +704,7 @@
                 <table class="admin-table" id="volTable">
                     <thead> 
                         <tr> 
-                            <th>#</th> 
+                            <th>S.No.</th> 
                             <th>Name</th> 
                             <th>Skills</th> 
                             <th>Availability</th> 
