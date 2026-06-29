@@ -478,7 +478,7 @@ if (!"ngo".equalsIgnoreCase(role)) {
       </div>
     </div>
 
-    <div id="requests" style="margin-bottom: 24px;">
+  <div id="requests" style="margin-bottom: 24px;">
       <div class="card">
         <div class="card-header">
           <div class="section-title"><i class="fa-solid fa-people-group"></i> Volunteer Requests</div>
@@ -503,6 +503,8 @@ if (!"ngo".equalsIgnoreCase(role)) {
                 String initial = req.getOrDefault("volunteerName","V");
                 initial = initial.length() > 0 ? String.valueOf(initial.charAt(0)).toUpperCase() : "V";
                 String reqId = req.getOrDefault("requestId","");
+                String vPhone = req.getOrDefault("phone",""); // Automatically pulls volunteer's phone number
+                String vName = req.getOrDefault("volunteerName","Volunteer");
             %>
             <div class="request-card <%= reqStatus %>" data-status="<%= reqStatus %>">
               <div class="req-top">
@@ -523,9 +525,18 @@ if (!"ngo".equalsIgnoreCase(role)) {
                   <form method="post" action="NGODashboardServlet" style="display:inline"><input type="hidden" name="action" value="updateRequest"/><input type="hidden" name="requestId" value="<%= reqId %>"/><input type="hidden" name="status" value="accepted"/><button type="submit" class="btn btn-success btn-sm" style="background:#10B981; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600; font-size:12px; margin-right:4px;"><i class="fa-solid fa-check"></i> Accept</button></form>
                   <form method="post" action="NGODashboardServlet" style="display:inline"><input type="hidden" name="action" value="updateRequest"/><input type="hidden" name="requestId" value="<%= reqId %>"/><input type="hidden" name="status" value="rejected"/><button type="submit" class="btn btn-danger btn-sm" style="background:#EF4444; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600; font-size:12px;"><i class="fa-solid fa-xmark"></i> Reject</button></form>
                 <% } else if ("accepted".equals(reqStatus)) { %>
-                  <form method="post" action="NGODashboardServlet" style="display:block; width:100%;"><input type="hidden" name="action" value="updateRequest"/><input type="hidden" name="requestId" value="<%= reqId %>"/><input type="hidden" name="status" value="completed"/><button type="submit" class="btn btn-primary btn-sm" style="background:#0284C7; color:white; border:none; padding:8px 12px; border-radius:4px; cursor:pointer; font-weight:600; font-size:12px; width:100%;"><i class="fa-solid fa-award"></i> Mark Completed</button></form>
+                  <div style="display: flex; gap: 6px; margin-bottom: 6px;">
+                    <form method="post" action="NGODashboardServlet" style="flex: 1;"><input type="hidden" name="action" value="updateRequest"/><input type="hidden" name="requestId" value="<%= reqId %>"/><input type="hidden" name="status" value="completed"/><button type="submit" class="btn btn-primary btn-sm" style="background:#0284C7; color:white; border:none; padding:8px 12px; border-radius:4px; cursor:pointer; font-weight:600; font-size:12px; width:100%;"><i class="fa-solid fa-award"></i> Mark Completed</button></form>
+                    <a href="https://api.whatsapp.com/send?phone=91<%= vPhone %>&text=Hi%20<%= vName %>,%20this%20is%20regarding%20the%20disaster%20relief%20drive%20on%20CareLink." target="_blank" style="background:#25D366; color:white; padding:8px 12px; border-radius:4px; font-weight:600; font-size:12px; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:4px;"><i class="fa-brands fa-whatsapp"></i> Chat</a>
+                  </div>
                 <% } else if ("completed".equals(reqStatus)) { %>
-                  <div style="background:#DCFCE7; color:#15803D; padding:6px 10px; border-radius:4px; font-weight:700; font-size:12px; text-align:center;"><i class="fa-solid fa-circle-check"></i> Completed (Points Credited)</div>
+                  <div style="background:#DCFCE7; color:#15803D; padding:6px 10px; border-radius:4px; font-weight:700; font-size:12px; text-align:center; margin-bottom: 6px;"><i class="fa-solid fa-circle-check"></i> Completed (Points Credited)</div>
+                  
+                  <a href="https://wa.me/91<%= req.getOrDefault("phone","").replaceAll("[^0-9]", "") %>?text=Thank%20you%20<%= java.net.URLEncoder.encode(req.getOrDefault("volunteerName","Volunteer"), "UTF-8") %>%20for%20your%20incredible%20support%20on%20the%20CareLink%20disaster%20drive!" 
+                     target="_blank" 
+                     style="background:#25D366; color:white; padding:6px 10px; border-radius:4px; font-weight:600; font-size:12px; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:4px; width:100%; box-sizing:border-box;">
+                     <i class="fa-brands fa-whatsapp"></i> Say Thank You
+                  </a>
                 <% } else { %>
                   <div style="background:#FEE2E2; color:#B91C1C; padding:6px 10px; border-radius:4px; font-weight:700; font-size:12px; text-align:center;"><i class="fa-solid fa-circle-xmark"></i> Application Rejected</div>
                 <% } %>
@@ -538,7 +549,6 @@ if (!"ngo".equalsIgnoreCase(role)) {
         </div>
       </div>
     </div>
-
     <div class="two-col" id="contributions">
       <div class="card" id="donations">
         <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">

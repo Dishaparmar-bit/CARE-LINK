@@ -28,8 +28,6 @@ public class NGODashboardServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-
-        // Session check
         if (session == null || session.getAttribute("userId") == null) {
             response.sendRedirect("login.jsp?error=session_expired");
             return;
@@ -44,26 +42,24 @@ public class NGODashboardServlet extends HttpServlet {
         int userId = (int) session.getAttribute("userId");
         NGODao dao = new NGODao();
 
-        
-        Map<String, String>        profile           = dao.getNGOProfile(userId);
-        Map<String, Object>        stats             = dao.getOverviewStats(userId);
-        List<Map<String, String>>  campaigns         = dao.getCampaigns(userId);
-        List<Map<String, String>>  volunteerRequests = dao.getVolunteerRequestsForNGO(userId);
-        List<Map<String, String>>  donations         = dao.getDonations(userId); // 👈 DAO iterates map maps inside here
-        List<Map<String, String>>  nearbyVolunteers  = dao.getNearbyVolunteers();
-        List<Map<String, String>>  allNGOs           = dao.getAllNGOsWithLocation();
-        List<Map<String, String>>  feedPosts         = dao.getFeedPosts(userId);
-        
-      
+        Map<String, String>       profile           = dao.getNGOProfile(userId);
+        Map<String, Object>       stats             = dao.getOverviewStats(userId);
+        List<Map<String, String>> campaigns         = dao.getCampaigns(userId);
+        List<Map<String, String>> volunteerRequests = dao.getVolunteerRequestsForNGO(userId);
+        List<Map<String, String>> donations         = dao.getDonations(userId);
+        List<Map<String, String>> nearbyVolunteers  = dao.getNearbyVolunteers();
+        List<Map<String, String>> allNGOs           = dao.getAllNGOsWithLocation();
+        List<Map<String, String>> feedPosts         = dao.getFeedPosts(userId);
+
         request.setAttribute("profile",           profile);
-        request.setAttribute("stats",              stats);
+        request.setAttribute("stats",             stats);
         request.setAttribute("campaigns",         campaigns);
         request.setAttribute("volunteerRequests", volunteerRequests);
         request.setAttribute("donations",         donations);
         request.setAttribute("nearbyVolunteers",  nearbyVolunteers);
         request.setAttribute("allNGOs",           allNGOs);
-        request.setAttribute("feedPosts",          feedPosts);
-        
+        request.setAttribute("feedPosts",         feedPosts);
+
         request.getRequestDispatcher("ngoDashboard.jsp").forward(request, response);
     }
 
@@ -77,36 +73,41 @@ public class NGODashboardServlet extends HttpServlet {
             return;
         }
 
-        int userId = (int) session.getAttribute("userId");
+        int    userId = (int) session.getAttribute("userId");
         String action = request.getParameter("action");
-        NGODao dao = new NGODao();
+        NGODao dao    = new NGODao();
 
         if ("addCampaign".equals(action)) {
-            String title            = request.getParameter("title");
-            String description      = request.getParameter("description");
-            String category         = request.getParameter("category");
-            double targetAmount     = Double.parseDouble(request.getParameter("targetAmount"));
-            int    volunteersNeeded = Integer.parseInt(request.getParameter("volunteersNeeded"));
-            
-         
-            String allowedType      = request.getParameter("allowedType"); 
-            String materialRequirements = request.getParameter("materialRequirements");
 
-            // 1. Save campaign into database 
-            boolean isInserted = dao.addCampaign(userId, title, description, category, targetAmount, volunteersNeeded, allowedType, materialRequirements);
+            String title        = request.getParameter("title");
+            String description  = request.getParameter("description");
+            String category     = request.getParameter("category");
+            String allowedType  = request.getParameter("allowedType");
+            String materialReqs = request.getParameter("materialRequirements");
 
-            // 2. Email Broadcast to all Registered Volunteers 
+            // FIX: parseInt guard
+            double targetAmount;
+            int    volunteersNeeded;
+            try {
+                targetAmount     = Double.parseDouble(request.getParameter("targetAmount"));
+                volunteersNeeded = Integer.parseInt(request.getParameter("volunteersNeeded"));
+            } catch (NumberFormatException e) {
+                response.sendRedirect("NGODashboardServlet?error=invalid_numbers");
+                return;
+            }
+
+            boolean isInserted = dao.addCampaign(userId, title, description, category,
+                    targetAmount, volunteersNeeded, allowedType, materialReqs);
+
             if (isInserted) {
                 List<String> volunteerEmails = new ArrayList<>();
                 String ngoName = "CARE LINK Verified NGO";
-                String city = "Indore"; 
+                String city    = "";
 
                 String broadcastQuery = "SELECT email, role, full_name, city, id FROM users";
-                
                 try (Connection con = com.carelink.db.DBConnection.getConnection();
                      PreparedStatement psBroadcast = con.prepareStatement(broadcastQuery);
                      ResultSet rs = psBroadcast.executeQuery()) {
-                    
                     while (rs.next()) {
                         String userRole = rs.getString("role");
                         if ("volunteer".equalsIgnoreCase(userRole)) {
@@ -114,52 +115,55 @@ public class NGODashboardServlet extends HttpServlet {
                         }
                         if (userId == rs.getInt("id")) {
                             ngoName = rs.getString("full_name");
-                            city = rs.getString("city");
+                            city    = rs.getString("city");
                         }
                     }
-                } catch (Exception e) { 
-                    e.printStackTrace(); 
-                }
+                } catch (Exception e) { e.printStackTrace(); }
 
                 for (String email : volunteerEmails) {
                     EmailUtil.sendNewCampaignAlert(email, title, ngoName, category, city);
                 }
-                
                 response.sendRedirect("NGODashboardServlet?success=campaign");
-                return;
             } else {
                 response.sendRedirect("NGODashboardServlet?error=failed_to_insert");
-                return;
-            }
-
-        } 
-        
-        //  ACCEPT SUPPLY TRANSACTION 
-        else if ("acceptSupply".equals(action)) {
-            int donationId = Integer.parseInt(request.getParameter("donationId"));
-            
-            boolean isAccepted = dao.acceptMaterialSupply(donationId);
-            
-            if (isAccepted) {
-                response.sendRedirect("NGODashboardServlet?success=supply_accepted");
-            } else {
-                response.sendRedirect("NGODashboardServlet?error=failed_supply");
             }
             return;
         }
 
-        else if ("updateRequest".equals(action)) {
-            int    requestId = Integer.parseInt(request.getParameter("requestId"));
-            String status    = request.getParameter("status");
-            dao.updateRequestStatus(requestId, status);
-            String volunteerEmail = "";
-            String campaignTitle = "";
+        else if ("acceptSupply".equals(action)) {
             
-            String fetchQuery = "SELECT u.email, c.title FROM campaign_requests cr " +
-                                "JOIN users u ON cr.volunteer_user_id = u.id " +
-                                "JOIN campaigns c ON cr.campaign_id = c.id " +
-                                "WHERE cr.id = ?";
-                                
+            int donationId;
+            try {
+                donationId = Integer.parseInt(request.getParameter("donationId"));
+            } catch (NumberFormatException e) {
+                response.sendRedirect("NGODashboardServlet?error=invalid_id");
+                return;
+            }
+            boolean isAccepted = dao.acceptMaterialSupply(donationId);
+            response.sendRedirect(isAccepted
+                    ? "NGODashboardServlet?success=supply_accepted"
+                    : "NGODashboardServlet?error=failed_supply");
+            return;
+        }
+
+        else if ("updateRequest".equals(action)) {
+          
+            int requestId;
+            try {
+                requestId = Integer.parseInt(request.getParameter("requestId"));
+            } catch (NumberFormatException e) {
+                response.sendRedirect("NGODashboardServlet?error=invalid_id");
+                return;
+            }
+            String status = request.getParameter("status");
+            dao.updateRequestStatus(requestId, status);
+
+            String volunteerEmail = "";
+            String campaignTitle  = "";
+            String fetchQuery = "SELECT u.email, c.title FROM campaign_requests cr "
+                              + "JOIN users u ON cr.volunteer_user_id = u.id "
+                              + "JOIN campaigns c ON cr.campaign_id = c.id "
+                              + "WHERE cr.id = ?";
             try (Connection con = com.carelink.db.DBConnection.getConnection();
                  PreparedStatement psFetch = con.prepareStatement(fetchQuery)) {
                 psFetch.setInt(1, requestId);
@@ -170,29 +174,39 @@ public class NGODashboardServlet extends HttpServlet {
                     }
                 }
             } catch (Exception e) { e.printStackTrace(); }
-            
-            if (volunteerEmail != null && !volunteerEmail.isEmpty() && campaignTitle != null && !campaignTitle.isEmpty()) {
+
+            if (volunteerEmail != null && !volunteerEmail.isEmpty()
+                    && campaignTitle != null && !campaignTitle.isEmpty()) {
                 EmailUtil.sendApplicationStatusUpdate(volunteerEmail, campaignTitle, status);
             }
-            
             response.sendRedirect("NGODashboardServlet?success=request");
             return;
-        } 
+        }
 
         else if ("closeCampaign".equals(action)) {
-            int campaignId = Integer.parseInt(request.getParameter("campaignId"));
-            boolean isClosed = dao.closeCampaign(campaignId);
-            if (isClosed) {
-                response.sendRedirect("NGODashboardServlet?success=campaign_closed");
-            } else {
-                response.sendRedirect("NGODashboardServlet?error=failed_to_close");
+            int campaignId;
+            try {
+                campaignId = Integer.parseInt(request.getParameter("campaignId"));
+            } catch (NumberFormatException e) {
+                response.sendRedirect("NGODashboardServlet?error=invalid_id");
+                return;
             }
+            boolean isClosed = dao.closeCampaign(campaignId, userId);
+            response.sendRedirect(isClosed
+                    ? "NGODashboardServlet?success=campaign_closed"
+                    : "NGODashboardServlet?error=failed_to_close");
             return;
         }
-        
+
         else if ("updateLocation".equals(action)) {
-            double lat = Double.parseDouble(request.getParameter("lat"));
-            double lng = Double.parseDouble(request.getParameter("lng"));
+            double lat, lng;
+            try {
+                lat = Double.parseDouble(request.getParameter("lat"));
+                lng = Double.parseDouble(request.getParameter("lng"));
+            } catch (NumberFormatException e) {
+                response.sendRedirect("NGODashboardServlet?error=invalid_location");
+                return;
+            }
             dao.updateLocation(userId, lat, lng);
             response.sendRedirect("NGODashboardServlet?success=location");
             return;

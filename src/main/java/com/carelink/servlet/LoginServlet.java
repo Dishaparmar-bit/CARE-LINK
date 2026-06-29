@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.carelink.db.DBConnection;
+import com.carelink.util.PasswordUtil; 
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -23,53 +24,61 @@ public class LoginServlet extends HttpServlet {
                           HttpServletResponse response)
             throws ServletException, IOException {
 
-        String email = request.getParameter("email");
+        String email    = request.getParameter("email");
         String password = request.getParameter("password");
 
-        try {
-            Connection con = DBConnection.getConnection();
+        // FIX: Basic null check
+        if (email == null || password == null
+                || email.trim().isEmpty() || password.trim().isEmpty()) {
+            response.sendRedirect("login.jsp?error=invalid");
+            return;
+        }
 
-            PreparedStatement ps =
-                    con.prepareStatement(
-                            "SELECT * FROM users WHERE email=? AND password=?"
-                    );
+        try (Connection con = DBConnection.getConnection()) {
 
-            ps.setString(1, email);
-            ps.setString(2, password);
-
+            PreparedStatement ps = con.prepareStatement(
+                "SELECT id, full_name, email, password, role FROM users WHERE email=?"
+            );
+            ps.setString(1, email.trim());
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                int userId = rs.getInt("id");
-                String role = rs.getString("role");
-                String userName = rs.getString("full_name");
+                String storedHash = rs.getString("password");
+
+            
+                if (!PasswordUtil.verify(password, storedHash)) {
+                    response.sendRedirect("login.jsp?error=invalid");
+                    return;
+                }
+
+                int    userId    = rs.getInt("id");
+                String role      = rs.getString("role");
+                String userName  = rs.getString("full_name");
                 String userEmail = rs.getString("email");
 
-               
                 HttpSession session = request.getSession();
-                session.setAttribute("userId", userId);
+                session.setAttribute("userId",   userId);
                 session.setAttribute("userName", userName);
-                session.setAttribute("email", userEmail);
-                session.setAttribute("role", role);
+                session.setAttribute("email",    userEmail);
+                session.setAttribute("role",     role);
 
                 if ("ngo".equalsIgnoreCase(role)) {
-                    String statusQuery = "SELECT * FROM ngo_details WHERE user_id = ?";
-                    try (PreparedStatement psStatus = con.prepareStatement(statusQuery)) {
+                    try (PreparedStatement psStatus = con.prepareStatement(
+                            "SELECT * FROM ngo_details WHERE user_id = ?")) {
                         psStatus.setInt(1, userId);
                         try (ResultSet rsStatus = psStatus.executeQuery()) {
                             if (rsStatus.next()) {
                                 String status = rsStatus.getString("status");
-                                
                                 if ("pending".equalsIgnoreCase(status)) {
+                                    session.invalidate();
                                     response.sendRedirect("login.jsp?error=pending_approval");
                                     return;
                                 }
-                                
-                                session.setAttribute("orgName", rsStatus.getString("org_name"));
-                                session.setAttribute("regNumber", rsStatus.getString("registration_number"));
-                                session.setAttribute("ngoStatus", status); // 'approved'
-                                
+                                session.setAttribute("orgName",    rsStatus.getString("org_name"));
+                                session.setAttribute("regNumber",  rsStatus.getString("registration_number"));
+                                session.setAttribute("ngoStatus",  status);
                             } else {
+                                session.invalidate();
                                 response.sendRedirect("login.jsp?error=pending_approval");
                                 return;
                             }
@@ -77,24 +86,19 @@ public class LoginServlet extends HttpServlet {
                     }
                 }
 
-                // --- Redirection Logic Base System ---
                 if ("ngo".equalsIgnoreCase(role)) {
                     response.sendRedirect("NGODashboardServlet");
-                }
-                else if ("volunteer".equalsIgnoreCase(role)) {
+                } else if ("volunteer".equalsIgnoreCase(role)) {
                     response.sendRedirect("VolunteerDashboardServlet");
-                }
-                else if ("donor".equalsIgnoreCase(role)) {
+                } else if ("donor".equalsIgnoreCase(role)) {
                     response.sendRedirect("donorDashboard.jsp");
-                }
-                else if ("admin".equalsIgnoreCase(role)) {
+                } else if ("admin".equalsIgnoreCase(role)) {
                     response.sendRedirect("adminDashboard.jsp");
-                }
-                else {
+                } else {
                     response.sendRedirect("login.jsp?error=invalid_role");
                 }
+
             } else {
-         
                 response.sendRedirect("login.jsp?error=invalid");
             }
 
