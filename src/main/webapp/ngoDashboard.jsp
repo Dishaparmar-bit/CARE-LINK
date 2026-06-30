@@ -113,7 +113,7 @@ if (!"ngo".equalsIgnoreCase(role)) {
     display: grid !important;
     grid-template-columns: 2fr 1fr !important;
     gap: 24px !important;
-    align-items: start !important; /* Changed from stretch to start to align cards to their natural height and remove gaps */
+    align-items: start !important;
     margin-bottom: 24px !important;
 }
 .card {
@@ -154,7 +154,7 @@ if (!"ngo".equalsIgnoreCase(role)) {
     width: 58px;
     height: 58px;
     border-radius: 50%;
-    background: #0A7A76; /* Emerald Brand Theme color matching CareyLink logo */
+    background: #0A7A76;
     color: #ffffff;
     border: 2px solid #ffffff;
     display: flex;
@@ -191,7 +191,7 @@ if (!"ngo".equalsIgnoreCase(role)) {
     position: absolute;
     bottom: 72px;
     right: 0;
-    display: none; /* Changed from flex to none so it remains closed by default on page load */
+    display: none;
     flex-direction: column;
     border: 1px solid #e2e8f0;
     box-shadow: 0 10px 32px rgba(15, 23, 42, 0.12);
@@ -355,6 +355,87 @@ if (!"ngo".equalsIgnoreCase(role)) {
       </div>
     </div>
 
+    <!-- 🧠 MENTOR ROUND 2 TASK: INTELLIGENT VOLUNTEER MATCHMAKING RADAR COMPONENT FOR NGOs -->
+    <div class="card mb-4" style="border: 1px solid #0A7A76; border-radius: 16px; margin-top: 24px;">
+        <div class="card-header" style="background: rgba(10, 122, 118, 0.04); display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;">
+            <div class="section-title" style="color: #086360; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-brain"></i> AI Intelligent Emergency Responder Radar
+            </div>
+            <span style="font-size: 11px; background: #0A7A76; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 700; text-transform: uppercase;">Top 5 Proximity Suggestions</span>
+        </div>
+        <div class="card-body p-3">
+            <p style="font-size: 12px; color: #64748B; margin-bottom: 14px;"><i class="fa-solid fa-circle-info"></i> Automatically indexing matching regional resources and operational capacities to counter dynamic crisis vectors instantly without duplicate allocations.</p>
+            <div class="table-responsive">
+                <table class="data-table" style="width:100%; text-align: left;">
+                    <thead style="background: #f8fafc;">
+                        <tr>
+                            <th style="padding: 12px;">Priority Rank</th>
+                            <th style="padding: 12px;">Candidate Name</th>
+                            <th style="padding: 12px;">Role Node</th>
+                            <th style="padding: 12px;">Location Context</th>
+                            <th style="padding: 12px; width: 220px;">AI Capability Weight Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                        try {
+                            // Instant execution call connected seamlessly to our USERDao framework
+                            com.carelink.dao.USERDao internalEngine = new com.carelink.dao.USERDao();
+                            
+                            // Contextual integration parameters pulling live context from current active NGO profile
+                            int currentMockRequestId = 205; 
+                            String targetProximityCity = city.trim().isEmpty() ? "Bhopal" : city;
+                            String requiredSkillVector = "volunteer"; 
+                            String requiredResourceCapacity = description;
+                            
+                            java.util.List<com.carelink.dao.USERDao.RecommendationMatch> matchingResponders = 
+                                internalEngine.getIntelligentRecommendations(currentMockRequestId, targetProximityCity, requiredSkillVector, requiredResourceCapacity);
+                            
+                            if (matchingResponders == null || matchingResponders.isEmpty()) {
+                        %>
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: #64748B; padding: 20px;">No optimum localized resources found within proximity boundaries.</td>
+                            </tr>
+                        <%
+                            } else {
+                                int priorityRank = 1;
+                                for (com.carelink.dao.USERDao.RecommendationMatch match : matchingResponders) {
+                        %>
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 12px;"><span style="background: #1e293b; color: white; padding: 3px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 700;">Rank #<%= priorityRank++ %></span></td>
+                                <td style="padding: 12px;"><strong><%= match.name %></strong></td>
+                                <td style="padding: 12px;">
+                                    <span style="font-size: 11px; padding: 3px 9px; border-radius: 99px; font-weight: 700; text-transform: uppercase; background: <%= "ngo".equalsIgnoreCase(match.role) ? "#eff6ff; color:#1e40af;" : "#ecfdf5; color:#065f46;" %>">
+                                        <%= match.role %>
+                                    </span>
+                                </td>
+                                <td style="padding: 12px;"><i class="fa-solid fa-location-dot" style="color: #64748B; font-size: 11px;"></i> <%= match.city %></td>
+                                <td style="padding: 12px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <div style="flex-grow: 1; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;">
+                                            <div style="width: <%= match.matchScore %>%; height: 100%; background: #0A7A76; border-radius: 3px;"></div>
+                                        </div>
+                                        <strong style="font-size: 12px; color: #0A7A76;"><%= (int)match.matchScore %>%</strong>
+                                    </div>
+                                </td>
+                            </tr>
+                        <%
+                                }
+                            }
+                        } catch(Exception ex) {
+                        %>
+                            <tr>
+                                <td colspan="5" style="color: #ef4444; padding: 12px;">Radar Pipeline Exception Triggered: <%= ex.getMessage() %></td>
+                            </tr>
+                        <%
+                        }
+                        %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <div class="two-col" id="campaigns">
       <div class="card" style="grid-column: 1">
         <div class="card-header">
@@ -503,7 +584,7 @@ if (!"ngo".equalsIgnoreCase(role)) {
                 String initial = req.getOrDefault("volunteerName","V");
                 initial = initial.length() > 0 ? String.valueOf(initial.charAt(0)).toUpperCase() : "V";
                 String reqId = req.getOrDefault("requestId","");
-                String vPhone = req.getOrDefault("phone",""); // Automatically pulls volunteer's phone number
+                String vPhone = req.getOrDefault("phone",""); 
                 String vName = req.getOrDefault("volunteerName","Volunteer");
             %>
             <div class="request-card <%= reqStatus %>" data-status="<%= reqStatus %>">
